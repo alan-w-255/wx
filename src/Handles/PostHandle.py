@@ -11,8 +11,8 @@ def handle(request):
         fromUserName = data_xml.findtext('FromUserName')
         toUserName = data_xml.findtext('ToUserName')
         msgType = data_xml.findtext('MsgType')
-
         print("接收到的POST请求的DATA类型为 {}".format(msgType))
+
         if msgType == 'text': # 处理用户发出的文本信息
             textContent = data_xml.findtext('Content')
             print("接收到用户文本消息 {content}".format(content=textContent))
@@ -25,6 +25,8 @@ def handle(request):
             pass
         elif msgType == 'voice': # 处理用户发出的语音信息
             pass
+        elif msgType == 'event': # 处理用户发出的事件信息
+
         else:
             pass
     except Exception as e:

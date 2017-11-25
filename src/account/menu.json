@@ -1,0 +1,29 @@
+{
+    "button": [
+        {
+            "type": "click",
+            "name": "今日课表",
+            "key": "GET_TODAY_CLASS_SCHEDULE"
+        },
+        {
+            "type": "click",
+            "name": "今日任务",
+            "key": "GET_TODAY_TASKS"
+        },
+        {
+            "name": "其他",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "绑定",
+                    "key": "BIND_USER"
+                },
+                {
+                    "type": "click",
+                    "name": "成绩查询",
+                    "key": "CHECK_GRADE"
+                }
+            ]
+        }
+    ]
+}

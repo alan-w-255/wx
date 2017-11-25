@@ -2,9 +2,13 @@
 # python3
 import hashlib
 import xml.etree.ElementTree as ET
+from configparser import ConfigParser
 from flask import Flask
 from flask import request
 from Handles import GetHandle, PostHandle
+
+cfg = ConfigParser()
+cfg.read('./setting.ini')
 
 app = Flask(__name__)
 
@@ -20,6 +24,4 @@ def auth():
     else:
         raise Exception('无法处理的request 方法: ', request.method)
 
-app.debug = True
-
-app.run(host='0.0.0.0', port=80)
+app.debug = cfg.getboolean('debug', 'debug-mode')
