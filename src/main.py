@@ -25,3 +25,5 @@ def auth():
         raise Exception('无法处理的request 方法: ', request.method)
 
 app.debug = cfg.getboolean('debug', 'debug-mode')
+
+# 实现用户绑定功能

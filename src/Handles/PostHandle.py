@@ -26,7 +26,7 @@ def handle(request):
         elif msgType == 'voice': # 处理用户发出的语音信息
             pass
         elif msgType == 'event': # 处理用户发出的事件信息
-
+            pass
         else:
             pass
     except Exception as e:
