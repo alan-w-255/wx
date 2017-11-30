@@ -1,4 +1,5 @@
+.vscode/
+test/
 *.pyc
 wxenv/
-.vscode/
 .pylintrc

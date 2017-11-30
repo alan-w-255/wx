@@ -14,9 +14,9 @@
             "name": "其他",
             "sub_button": [
                 {
-                    "type": "click",
+                    "type": "view",
                     "name": "绑定",
-                    "key": "BIND_USER"
+                    "url": "http://heywym.com/user_binding"
                 },
                 {
                     "type": "click",
