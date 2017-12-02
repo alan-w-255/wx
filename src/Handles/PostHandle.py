@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from flask import redirect, url_for
 from lib import MsgRender
+import setting
 
 def handle(request):
     # 处理用户发送的消息
@@ -46,7 +47,7 @@ def handle(request):
                 if event_key == 'http://www.baidu.com':
                     # todo: 
                     return redirect('http://www.baidu.com')
-                if event_key == 'http://heywym.com/user_binding':
+                if event_key == setting.user_binding_page:
                     # todo: 需要先跳转到认证界面
                     return redirect(user_binding())
             else:

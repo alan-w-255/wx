@@ -1,6 +1,5 @@
 {
-    "button": [
-        {
+    "button": [{
             "type": "click",
             "name": "今日课表",
             "key": "GET_TODAY_CLASS_SCHEDULE"
@@ -12,8 +11,7 @@
         },
         {
             "name": "其他",
-            "sub_button": [
-                {
+            "sub_button": [{
                     "type": "view",
                     "name": "绑定",
                     "url": "http://heywym.com/user_binding"

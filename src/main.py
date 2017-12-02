@@ -2,14 +2,11 @@
 # python3
 import hashlib
 import xml.etree.ElementTree as ET
-from configparser import ConfigParser
 from flask import Flask, request, render_template
-from Handles import GetHandle, PostHandle
+from handles import GetHandle, PostHandle
+import setting
 
-cfg = ConfigParser()
-cfg.read('./setting.ini')
-
-root_path = cfg.get('app', 'root_path')
+root_path = setting.root_path
 
 app = Flask(__name__, root_path=root_path)
 
@@ -32,10 +29,25 @@ def sign_up():
 
 @app.route('/user_binding')
 def bind_user():
+
     print('访问 /user_binding 页面')
-    return app.send_static_file('/html/user_binding.html')
+    return render_template('bindUser.html')
+
+@app.route('/getBindingData', methods=['post'])
+def bind_user_data():
+    studentID = request.data['studentID']
+    passwd = request.data['passwd']
+    if has_student_in_db(studentID):
+        return render_template('IDAlreadyBinded.html')
+    else:
+        try:
+            insert_ID_to_DB(studentID, passwd)
+            return render_template('bindingSucceed.html')
+        except Exception as e:
+            print(e)
+            return render_template('bindingFailed.html')
 
 
-app.debug = cfg.getboolean('debug', 'debug-mode')
+app.debug = setting.debug_mode
 
 # 实现用户绑定功能

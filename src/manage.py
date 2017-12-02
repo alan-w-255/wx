@@ -1,9 +1,6 @@
 from flask_script import Manager, Server
 from main import app
-from configparser import ConfigParser
-
-cfg = ConfigParser()
-cfg.read('./setting.ini')
+import setting
 
 manager = Manager(app)
 
@@ -19,12 +16,10 @@ def create_menu():
     from account.access_token import get_access_token
     import json
     import codecs
-    appid = cfg.get('account', 'appID')
-    appsecret = cfg.get('account', 'appsecret')
+    appid = setting.appID
+    appsecret = setting.appsecret
     access_token = get_access_token(appid, appsecret)
-    menu_json = json.load(codecs.open(cfg.get('wechat-menu', 'menu'), encoding='utf-8'))
-
-    # print('创建菜单 {}'.format(menu_json))
+    menu_json = json.load(codecs.open(setting.menu, encoding='utf-8'))
 
     r = create_menu(menu_json, access_token)
     if json.loads(r.text)['errcode'] == 0:
@@ -39,8 +34,8 @@ def delete_menu():
     from account.access_token import get_access_token
     import json
 
-    appid = cfg.get('account', 'appID')
-    appsecret = cfg.get('account', 'appsecret')
+    appid = setting.appID
+    appsecret = setting.appsecret
     access_token = get_access_token(appid, appsecret)
 
     r = delete_menu(access_token)
