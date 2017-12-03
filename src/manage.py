@@ -1,9 +1,18 @@
-from flask_script import Manager, Server
+from flask_script import Manager, Server, Shell
+from models import database
+from models.Model import User, Course, UserCourseSchedule
 from main import app
-import setting
+
+shell = Shell(use_ipython=True)
+
+
 
 manager = Manager(app)
 
+def _make_context():
+    return dict(app=app, database=database, dbUser=User, dbCourse=Course, dbUserCourseSchedule=UserCourseSchedule)
+
+manager.add_command('shell', Shell(make_context=_make_context))
 manager.add_command("runserver", Server(host='0.0.0.0', port=80))
 
 @manager.command
@@ -44,6 +53,8 @@ def delete_menu():
     else:
         print('删除菜单失败')
         print(r.text)
+
+
 
 if __name__ == "__main__":
     manager.run()
