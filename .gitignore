@@ -3,3 +3,5 @@ test/
 *.pyc
 venv/
 .pylintrc
+**/*.ipynb*
+**/*.swp

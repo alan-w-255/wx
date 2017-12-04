@@ -1,63 +1,47 @@
 #%%
 import requests
-from 
-
-# 登陆, 获取课表页
-sess = requests.Session()
-data = {'zjh': '2015141462232', 'mm': '133637'}
-sess.post('http://202.115.47.141/loginAction.do', data=data)
-res = sess.get('http://202.115.47.141/xkAction.do?actionType=6')
-
-
-#%%
-# 解析课表
 from bs4 import BeautifulSoup
-soup=BeautifulSoup(res.text, 'lxml')
-classTable = soup.find_all('table', 'titleTop2')[1]
+
 
 #%%
-# 存储课表
-classTableHeads = classTable.find('thead').find_all('th')
+def crawlTable(studentID, passwd):
+    data = {
+        'zjh': 2015141462232,
+        'mm': 133637
+    }
 
-# 把课表表头写入文本
-with open('课程表.csv', 'a+', encoding='utf-8') as f:
-    classTableHeads.pop(8)
-    for x in classTableHeads:
-        f.write(x.get_text().strip())
-        f.write(',')
-    f.write('\n')
-classTableBody = classTable.find_all('tr', 'odd')
+    sess = requests.Session()
+    r = sess.post('http://202.115.47.141/loginAction.do', data=data)
+    print(len(r.text))
+    print(r.text)
+    if len(r.text) > 1000:
+        print('登陆失败')
+        return None
+    else:
+        res = sess.get('http://202.115.47.141/xkAction.do?actionType=6')
+        table = []
+        soup=BeautifulSoup(res.text, 'lxml')
+        classTable = soup.find_all('table', 'titleTop2')[1]
 
-# 把课表写入文本
-with open('课程表.csv', 'a+', encoding='utf-8') as f:
-    for tr in classTableBody:
-        tds = tr.find_all('td')
-        if len(tds) < 17:
-            pass
-        else:
-            tds.pop(8)
-            for td in tds:
-                try:
-                    f.write(td.get_text().strip())
-                    f.write(',')
-                    # 课表中的特殊字符需要处理
-                    print(td.get_text().strip(), end=',')
-                except AttributeError:
-                    pass
-            f.write('\n')
-            print()
+        classTableHeads = classTable.find('thead').find_all('th')
+        classTableHeads.pop(8)
+        headers = []
+        for h in classTableHeads:
+            headers.append(h.text.strip())
 
-
-#%% 
-# 插入数据库
-
-from models.Model import User, Course, UserCourseSchedule
-
-def insert_user():
-    pass
-
-def update_user():
-    pass
-
-def select_user():
-    pass
+        classTableBody = classTable.find_all('tr', 'odd')
+        for tr in classTableBody:
+            tds = tr.find_all('td')
+            course_record = {}
+            if len(tds) < 17:
+                continue
+            else:
+                tdlist = []
+                tds.pop(8)
+                for x in tds:
+                    tdlist.append(x.text.strip())
+                
+                for th, td in zip(headers,tdlist):
+                    course_record[th.strip()] = td.strip()
+            table.append(course_record)
+        return table
