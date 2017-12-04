@@ -16,3 +16,6 @@ static_url='http://220.167.38.97/static'
 
 # [webpage]
 user_binding_page='http://heywym.com/user_binding'
+
+# [semester]
+semester = '2017-下'

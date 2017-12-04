@@ -5,7 +5,7 @@ import hashlib
 import xml.etree.ElementTree as ET
 from flask import Flask, request, render_template
 from handles import GetHandle, PostHandle
-from models import database
+from db import database
 from models import Model
 
 import setting
@@ -53,7 +53,7 @@ def bind_user():
 
 @app.route('/getBindingData', methods=['post'])
 def bind_user_data():
-    from models.operator import has_student_in_db, insert_user_to_db
+    from models.operator import has_student_in_db, insert_user_to_db, insert_user_info_to_db
     studentID = request.data['studentID']
     passwd = request.data['passwd']
     if has_student_in_db(studentID):

@@ -5,3 +5,4 @@ venv/
 .pylintrc
 **/*.ipynb*
 **/*.swp
+**/*.sqlite

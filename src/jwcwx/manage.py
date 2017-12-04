@@ -1,5 +1,5 @@
 from flask_script import Manager, Server, Shell
-from models import database
+from db import database
 from models.Model import User, Course, UserCourseSchedule
 from main import app
 

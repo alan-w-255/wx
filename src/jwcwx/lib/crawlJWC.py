@@ -12,8 +12,6 @@ def crawlTable(studentID, passwd):
 
     sess = requests.Session()
     r = sess.post('http://202.115.47.141/loginAction.do', data=data)
-    print(len(r.text))
-    print(r.text)
     if len(r.text) > 1000:
         print('登陆失败')
         return None
@@ -45,3 +43,8 @@ def crawlTable(studentID, passwd):
                     course_record[th.strip()] = td.strip()
             table.append(course_record)
         return table
+
+r = crawlTable('2015141462232', '133637')
+with open('table.json', 'a+') as f:
+    for x in r:
+        f.write(str(x))
