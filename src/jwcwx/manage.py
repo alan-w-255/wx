@@ -54,6 +54,11 @@ def delete_menu():
         print('删除菜单失败')
         print(r.text)
 
+@manager.command
+def create_db():
+    from models.Model import db
+    db.create_all()
+
 
 
 if __name__ == "__main__":

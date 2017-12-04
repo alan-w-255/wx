@@ -1,17 +1,16 @@
-from flask_sqlalchemy import SQLAlchemy
-from main import app
+import sqlalchemy as db
+from models.database import Base
 
-db = SQLAlchemy(app)
-
-class User(db.Model):
+class User(Base):
     __tablename__ = 'jwc_user'
+
     student_ID = db.Column(db.String(12), primary_key=True) # pk
     jwc_passwd = db.Column(db.String(20))
 
     def __repr__(self):
         return '<user {}>'.format(self.student_ID)
 
-class Course(db.Model):
+class Course(Base):
 
     __tablename__ = 'jwc_course'
     course_number = db.Column(db.String(9), primary_key=True) # pk
@@ -33,7 +32,7 @@ class Course(db.Model):
     def __repr__(self):
         return '<课程 {}>'.format(self.course_number)
 
-class UserCourseSchedule(db.Model):
+class UserCourseSchedule(Base):
 
     __tablename__ = 'jwc_user_course_schedule'
 
