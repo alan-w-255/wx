@@ -51,21 +51,38 @@ def bind_user():
     print('访问 /user_binding 页面')
     return render_template('bindUser.html')
 
-@app.route('/getBindingData', methods=['post'])
+@app.route('/getBindingData', methods=['post', 'GET'])
 def bind_user_data():
-    from models.operator import has_student_in_db, insert_user_to_db, insert_user_info_to_db
-    studentID = request.data['studentID']
-    passwd = request.data['passwd']
+    from db.operator import has_student_in_db, insert_user_to_db, insert_user_course_to_db, update_course_table
+    from lib.crawlJWC import crawlTable
+    studentID = request.form['studentID']
+    passwd = request.form['passwd']
+    crawled_table = crawlTable(studentID, passwd)
     if has_student_in_db(studentID):
-        return render_template('IDAlreadyBinded.html')
+
+        return 'id already binded'
+        # return render_template('IDAlreadyBinded.html')
+
     else:
         try:
+
             insert_user_to_db(studentID, passwd)
-            insert_user_info_to_db(studentID, passwd)
+            update_course_table(crawled_table)
+            insert_user_course_to_db(studentID, passwd, crawled_table)
+
             return render_template('bindingSucceed.html')
+
         except Exception as e:
             print(e)
             return render_template('bindingFailed.html')
+
+@app.route('/getTodayCourse')
+def get_today_course():
+    pass
+
+@app.route('/getTomCourse')
+def get_tom_course():
+    pass
 
 
 app.debug = setting.debug_mode

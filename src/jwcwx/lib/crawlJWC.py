@@ -44,7 +44,7 @@ def crawlTable(studentID, passwd):
             table.append(course_record)
         return table
 
-r = crawlTable('2015141462232', '133637')
-with open('table.json', 'a+') as f:
-    for x in r:
-        f.write(str(x))
+# r = crawlTable('2015141462232', '133637')
+# with open('table.json', 'a+') as f:
+#     for x in r:
+#         f.write(str(x))

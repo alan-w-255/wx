@@ -1,5 +1,5 @@
 # [app]
-root_path='C:\\Users\\Alan\\Desktop\\code\\wx\\src'
+root_path='C:\\Users\\Alan\\Desktop\\code\\wx\\src\\jwcwx'
 
 # [menu]
 menu='C:\\Users\\Alan\\Desktop\\code\\wx\\src\\account\\menu.json'

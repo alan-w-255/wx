@@ -1,18 +1,23 @@
 from flask_script import Manager, Server, Shell
 from db import database
-from models.Model import User, Course, UserCourseSchedule
 from main import app
-
-shell = Shell(use_ipython=True)
-
-
 
 manager = Manager(app)
 
+from models import Model
+from db.operator import insert_user_course_to_db, insert_user_to_db, update_course_table
+from lib.crawlJWC import crawlTable
+
+stid = '2015141462232'
+passwd = '133637'
+
+jwct = crawlTable(stid, passwd)
+
 def _make_context():
-    return dict(app=app, database=database, dbUser=User, dbCourse=Course, dbUserCourseSchedule=UserCourseSchedule)
+    return dict(app=app, Model=Model, insert_user_course_to_db=insert_user_course_to_db, insert_user_to_db=insert_user_to_db, update_course_table=update_course_table, jwct=jwct, stid=stid, passwd=passwd)
 
 manager.add_command('shell', Shell(make_context=_make_context))
+
 manager.add_command("runserver", Server(host='0.0.0.0', port=80))
 
 @manager.command
@@ -56,10 +61,10 @@ def delete_menu():
 
 @manager.command
 def create_db():
-    from models.Model import db
-    db.create_all()
-
-
+    from db.database import init_db
+    init_db()
+    print('建立数据库成功!')
 
 if __name__ == "__main__":
     manager.run()
+

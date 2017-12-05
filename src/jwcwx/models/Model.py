@@ -36,15 +36,11 @@ class UserCourseSchedule(Base):
 
     __tablename__ = 'jwc_user_course_schedule'
 
-    student_ID = db.Column(db.String(12), db.ForeignKey('jwc_user.student_ID'), primary_key=True)
-
-    course_number = db.Column(db.String(9), db.ForeignKey('jwc_course.course_number'), primary_key=True)
-
-    course_serial_number = db.Column(db.String(2), db.ForeignKey('jwc_course.course_serial_number'), primary_key=True)
-
-    offering_date = db.Column(db.String(100), db.ForeignKey('jwc_course.offering_date'), primary_key=True)
+    student_ID = db.Column(db.String(12), db.ForeignKey('jwc_user.student_ID', ondelete='CASCADE'), primary_key=True)
+    course_number = db.Column(db.String(9), db.ForeignKey('jwc_course.course_number', ondelete='CASCADE'), primary_key=True)
+    course_serial_number = db.Column(db.String(2), db.ForeignKey('jwc_course.course_serial_number', ondelete='CASCADE'), primary_key=True)
+    offering_date = db.Column(db.String(100), db.ForeignKey('jwc_course.offering_date', ondelete='CASCADE'), primary_key=True)
     study_mode = db.Column(db.String(8))
-
     course_selection_state = db.Column(db.String(8))
 
     def __repr__(self):
