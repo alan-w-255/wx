@@ -65,6 +65,12 @@ def create_db():
     init_db()
     print('建立数据库成功!')
 
+@manager.command
+def drop_all_db_table():
+    from db.database import drop_all
+    drop_all()
+    print('删除所有表成功!')
+
 if __name__ == "__main__":
     manager.run()
 

@@ -5,7 +5,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-engine = create_engine('sqlite:///'+ os.path.join(basedir, 'data.sqlite'), convert_unicode=True) # 创建数据库引擎
+DATABASE_URI = 'postgresql://wxdbuser:wxpaw-ord@localhost:5432/wxdb'
+
+engine = create_engine(DATABASE_URI) # 创建数据库引擎
 
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
@@ -19,3 +21,6 @@ def init_db():
     import models.Model
     Base.metadata.create_all(bind=engine)
 
+def drop_all():
+    import models.Model
+    Base.metadata.drop_all(bind=engine)

@@ -68,7 +68,7 @@ def bind_user_data():
 
             insert_user_to_db(studentID, passwd)
             update_course_table(crawled_table)
-            insert_user_course_to_db(studentID, passwd, crawled_table)
+            insert_user_course_to_db(studentID, crawled_table)
 
             return render_template('bindingSucceed.html')
 

@@ -10,17 +10,22 @@ def has_student_in_db(studentID):
         return True
 
 def insert_user_to_db(studentID, passwd):
-    u = User(student_ID=studentID, jwc_passwd=passwd)
-    try:
-        db_session.add(u)
-        db_session.commit()
-        return 1  # 成功返回 1
-    except Exception as e:
-        print('插入User到数据错误: ' + str(e))
-        return -1 # 失败返回 -1
+    stid = User.query.filter(User.student_ID==studentID).first()
+    if stid is not None:
+        print(studentID + "已经在数据库!")
+    else:
+        u = User(student_ID=studentID, jwc_passwd=passwd)
+        try:
+            db_session.add(u)
+            db_session.commit()
+            return 1  # 成功返回 1
+        except Exception as e:
+            print('插入User到数据错误: ' + str(e))
+            return -1 # 失败返回 -1
 
 def update_course_table(course_table):
     from setting import semester
+    import hashlib
 
     for r in course_table:
 
@@ -28,12 +33,19 @@ def update_course_table(course_table):
         course_serial_number = r['课序号']
         offering_date = semester
 
-        _q = Course.query.filter(Course.course_number==course_number and Course.course_serial_number==course_serial_number and Course.offering_date==offering_date).first()
+        hashstr = course_number+course_serial_number+offering_date
+
+        sha1obj = hashlib.sha1()
+        sha1obj.update(hashstr.encode('utf-8'))
+        hashID = sha1obj.hexdigest()
+
+
+        _q = Course.query.filter(Course.ID==hashID).first()
         if _q is None:
             # insert course to db
             print("{} {} {}没有在数据库".format(course_number, course_serial_number, offering_date))
             c = Course(
-
+                ID = hashID,
                 course_number = r['课程号'],
                 course_serial_number = r['课序号'],
                 offering_date = semester,
@@ -57,8 +69,11 @@ def update_course_table(course_table):
         else:
             print("{} {} {} 在数据库".format(course_number, course_serial_number, offering_date))
 
-def insert_user_course_to_db(studentID, passwd, course_table):
+def insert_user_course_to_db(studentID, course_table):
     from setting import semester
+    import hashlib
+
+    offering_date = semester
 
     if course_table is None:
         return -1
@@ -69,12 +84,16 @@ def insert_user_course_to_db(studentID, passwd, course_table):
             course_selection_state=r['选课状态']
             study_mode=r['修读方式']
 
+            hashstr = course_number+course_serial_number+offering_date
+            sha1obj = hashlib.sha1()
+            sha1obj.update(hashstr.encode('utf-8'))
+
+            course_ID = sha1obj.hexdigest()
+
             u = UserCourseSchedule(
 
                 student_ID=studentID,
-                course_number=course_number,
-                course_serial_number=course_serial_number,
-                offering_date = semester,
+                course_ID= course_ID,
                 study_mode=study_mode,
                 course_selection_state=course_selection_state
 
