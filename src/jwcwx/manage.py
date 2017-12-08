@@ -1,6 +1,7 @@
 from flask_script import Manager, Server, Shell
 from db import database
 from main import app
+import setting
 
 manager = Manager(app)
 

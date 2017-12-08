@@ -53,32 +53,14 @@ def bind_user():
 
 @app.route('/getBindingData', methods=['post', 'GET'])
 def bind_user_data():
-    from db.operator import has_student_in_db, insert_user_to_db, insert_user_course_to_db, update_course_table
-    from lib.crawlJWC import crawlTable
-    studentID = request.form['studentID']
-    passwd = request.form['passwd']
-    crawled_table = crawlTable(studentID, passwd)
-    if has_student_in_db(studentID):
-
-        return 'id already binded'
-        # return render_template('IDAlreadyBinded.html')
-
-    else:
-        try:
-
-            insert_user_to_db(studentID, passwd)
-            update_course_table(crawled_table)
-            insert_user_course_to_db(studentID, crawled_table)
-
-            return render_template('bindingSucceed.html')
-
-        except Exception as e:
-            print(e)
-            return render_template('bindingFailed.html')
+    pass
 
 @app.route('/getTodayCourse')
 def get_today_course():
-    pass
+    from handles import PostHandle
+
+    return PostHandle(request)
+    
 
 @app.route('/getTomCourse')
 def get_tom_course():
@@ -86,5 +68,3 @@ def get_tom_course():
 
 
 app.debug = setting.debug_mode
-
-# 实现用户绑定功能

@@ -20,6 +20,11 @@
                     "type": "click",
                     "name": "成绩查询",
                     "key": "CHECK_GRADE"
+                },
+                {
+                    "type": "click",
+                    "name": "教学时间安排表",
+                    "key": "get_teaching_time_table"
                 }
             ]
         }

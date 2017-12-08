@@ -6,7 +6,15 @@ class User(Base):
     __tablename__ = 'jwc_user'
 
     student_ID = Column(String(13), primary_key=True) # pk
+    # NOTE: user 增加了wx_id 字段
+    wx_ID = Column(String(32))
     jwc_passwd = Column(String(20))
+    course_schedule = relationship(
+        "UserCourseSchedule",
+        backref='User',
+        lazy='dynamic'
+    )
+
 
     def __repr__(self):
         return '<user {}>'.format(self.student_ID)
@@ -31,6 +39,12 @@ class Course(Base):
     teaching_building = Column(String(100))
     classroom = Column(String(100))
 
+    user_course_schedule = relationship(
+        "UserCourseSchedule",
+        backref='Course',
+        lazy='dynamic'
+    )
+
     def __repr__(self):
         return '<课程 {}>'.format(self.course_number)
 
@@ -38,11 +52,21 @@ class UserCourseSchedule(Base):
 
     __tablename__ = 'jwc_user_course_schedule'
 
-    student_ID = Column(String(13), ForeignKey('jwc_user.student_ID', ondelete='CASCADE'), primary_key=True)
-    course_ID = Column(String(40), ForeignKey('jwc_course.ID', ondelete='CASCADE'), primary_key=True)
+    student_ID = Column(
+        String(13),
+        ForeignKey('jwc_user.student_ID', ondelete='CASCADE'),
+        primary_key=True
+    )
+
+    course_ID = Column(
+        String(40),
+        ForeignKey('jwc_course.ID', ondelete='CASCADE'),
+        primary_key=True
+    )
+
     study_mode = Column(String(8))
     course_selection_state = Column(String(8))
 
     def __repr__(self):
-        return '<{} 选课 {}>'.format(self.student_ID, self.course_number)
+        return '<{} 选课 {}>'.format(self.student_ID, self.course_ID)
 

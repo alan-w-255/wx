@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 #%%
 def crawlTable(studentID, passwd):
     data = {
-        'zjh': 2015141462232,
-        'mm': 133637
+        'zjh': studentID,
+        'mm': passwd
     }
 
     sess = requests.Session()

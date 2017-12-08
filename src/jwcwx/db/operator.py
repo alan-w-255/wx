@@ -9,12 +9,13 @@ def has_student_in_db(studentID):
     else:
         return True
 
-def insert_user_to_db(studentID, passwd):
+# refact this method
+def insert_user_to_db(studentID, openid, passwd):
     stid = User.query.filter(User.student_ID==studentID).first()
     if stid is not None:
         print(studentID + "已经在数据库!")
     else:
-        u = User(student_ID=studentID, jwc_passwd=passwd)
+        u = User(student_ID=studentID, wx_ID=openid, jwc_passwd=passwd)
         try:
             db_session.add(u)
             db_session.commit()
@@ -90,14 +91,21 @@ def insert_user_course_to_db(studentID, course_table):
 
             course_ID = sha1obj.hexdigest()
 
-            u = UserCourseSchedule(
+            _q = UserCourseSchedule.query.filter(UserCourseSchedule.course_ID==course_ID).filter(UserCourseSchedule.student_ID==studentID).first()
+            if _q is None:
+                # course_id 没有在数据库
+                print('{} 选 {} 课程没有在数据库'.format(studentID, course_ID))
 
-                student_ID=studentID,
-                course_ID= course_ID,
-                study_mode=study_mode,
-                course_selection_state=course_selection_state
+                u = UserCourseSchedule(
+
+                    student_ID=studentID,
+                    course_ID= course_ID,
+                    study_mode=study_mode,
+                    course_selection_state=course_selection_state
 
 
-            )
-            db_session.add(u)
-            db_session.commit()
+                )
+                db_session.add(u)
+                db_session.commit()
+            else:
+                print('{} 选 {} 课程已经在数据库'.format(studentID, course_ID))
