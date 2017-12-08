@@ -31,7 +31,7 @@ def __bind_user(studentID, openid, jwc_passwd):
                 print('绑定用户失败: ', e)
                 return -2
 
-def bind_user_reply(studentID, openid, passwd):
+def bind_user_reply(studentID, wxOfficeAccount, openid, passwd):
     _r = __bind_user(studentID, openid, passwd)
     if _r == -1:
         print('登陆教务处失败')

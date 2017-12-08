@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from db.database import Base
 
@@ -49,7 +49,6 @@ class Course(Base):
         return '<课程 {}>'.format(self.course_number)
 
 class UserCourseSchedule(Base):
-
     __tablename__ = 'jwc_user_course_schedule'
 
     student_ID = Column(
@@ -70,3 +69,12 @@ class UserCourseSchedule(Base):
     def __repr__(self):
         return '<{} 选课 {}>'.format(self.student_ID, self.course_ID)
 
+class Task(Base):
+    __tablename__ = 'jwc_task'
+    task_ID = Column(String(40), primary_key=True)
+    task = Column(Text())
+    thour = Column(String(2))
+    tmin = Column(String(2))
+    tyear = Column(String(4))
+    tmonth = Column(String(2))
+    tday = Column(String(2))

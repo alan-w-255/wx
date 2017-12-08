@@ -9,11 +9,6 @@ from models import Model
 from db.operator import insert_user_course_to_db, insert_user_to_db, update_course_table
 from lib.crawlJWC import crawlTable
 
-stid = '2015141462232'
-passwd = '133637'
-
-jwct = crawlTable(stid, passwd)
-
 def _make_context():
     return dict(app=app, Model=Model, insert_user_course_to_db=insert_user_course_to_db, insert_user_to_db=insert_user_to_db, update_course_table=update_course_table, jwct=jwct, stid=stid, passwd=passwd)
 

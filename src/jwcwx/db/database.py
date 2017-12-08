@@ -2,10 +2,11 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import setting
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-DATABASE_URI = 'postgresql://wxdbuser:wxpaw-ord@localhost:5432/wxdb'
+DATABASE_URI = 'postgresql://{dbuser}:{password}@{host}:{port}/{dbname}'.format(dbuser=setting.dbuser, password=setting.password, host=setting.host, port=setting.port, dbname=setting.dbname)
 
 engine = create_engine(DATABASE_URI) # 创建数据库引擎
 

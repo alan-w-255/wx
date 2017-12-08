@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from flask import redirect, url_for
 from lib import MsgRender
+import traceback
 import logging
 import setting
 
@@ -11,7 +12,8 @@ def handle(request):
 
     try:
         msg_data = wxrequest.extract(request)
-        assert len(DATA) > 0, "接受到post的数据应该大于零字节"
+        print(msg_data)
+        assert msg_data is not None, '提取到的回复为None'
         openid = msg_data['openID']
         wxOfficeAccount = msg_data['wxOfficeAccount']
         msgType =  msg_data['msgType']
@@ -28,7 +30,7 @@ def handle(request):
                 passwd = re.search(r':[^\s]*', textContent).group().replace(':', '')
 
                 logging.debug("请求绑定用户 {} {}".format(stid, passwd))
-                return bind_user_reply(stid, openid, passwd)
+                return bind_user_reply(stid, wxOfficeAccount, openid, passwd)
 
             else:
                 print("接收到用户文本消息 {content}".format(content=textContent))
@@ -41,23 +43,27 @@ def handle(request):
         elif msgType == 'image': # 处理用户发出的图片信息
             pass
         elif msgType == 'voice': # 处理用户发出的语音信息
-            recog_text = msg_data['recognition']
+            from lib import voiceTask
+            voiceTask.insert_task_to_db(msg_data)
+            return voiceTask.reply(msg_data)
 
 
         elif msgType == 'event': # 处理用户发出的事件信息
-            eventType = data_xml.findtext('Event')
-            print('处理实践类型{}'.format(eventType))
+            eventType = msg_data[ 'event' ]
+            print('处理事件类型{}'.format(eventType))
             if eventType == 'CLICK':
-                event_key = data_xml.findtext('EventKey')
+                event_key = msg_data[ 'eventKey' ]
                 if event_key == 'GET_TODAY_CLASS_SCHEDULE':
                     print('{}请求今日课表'.format(openid))
                     from handles import get_today_course
-                    # todo: 今日课表推送
+                    # 今日课表推送
                     return MsgRender.render(openid, wxOfficeAccount, 'text', get_today_course(openid))
 
-                elif event_key == 'get_today_tasks':
-                    # todo: 今日任务推送
-                    pass
+                elif event_key == 'GET_TODAY_TASKS':
+                    # 今日任务推送
+                    from handles import wx_task
+                    return wx_task.get_today_task(openid, wxOfficeAccount)
+
                 elif event_key == 'get_teaching_time_table':
                     # todo: 获取教学时间表
                     pass
@@ -65,11 +71,8 @@ def handle(request):
                     pass
             elif eventType == 'VIEW':
                 from webpages import user_binding
-                event_key = data_xml.findtext('EventKey')
+                event_key = msg_data[ 'eventKey' ]
                 print("请求网页{}".format(event_key))
-                if event_key == 'http://www.baidu.com':
-                    # todo: 
-                    return redirect('http://www.baidu.com')
                 if event_key == setting.user_binding_page:
                     # todo: 需要先跳转到认证界面
                     return redirect(user_binding())
@@ -81,5 +84,6 @@ def handle(request):
     except Exception as e:
         print("Exception: 处理用户post请求时出错")
         print(e)
+        print(traceback.print_exc())
         return MsgRender.render(openid, wxOfficeAccount, 'text', '对不起,服务器故障')
     

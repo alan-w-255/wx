@@ -109,3 +109,55 @@ def insert_user_course_to_db(studentID, course_table):
                 db_session.commit()
             else:
                 print('{} 选 {} 课程已经在数据库'.format(studentID, course_ID))
+
+
+def insert_task_to_db(openid, task, task_day, task_month, task_year, task_hour, task_min):
+    import hashlib
+
+    hashstr = task + openid + task_day + task_month + task_year + task_hour + task_min
+    sha1obj = hashlib.sha1()
+    sha1obj.update(hashstr.encode('utf-8'))
+    task_ID = sha1obj.hexdigest()
+
+    t_id = Task.query.filter(Task.task_ID==task_ID).first()
+    if t_id is not None:
+        print(t_id + "已经在数据库!")
+    else:
+        t = Task(
+            task_ID=task_ID,
+            task = task,
+            thour = task_hour,
+            tmin = task_min,
+            tyear = task_year,
+            tmonth = task_month,
+            tday = task_day
+        )
+        try:
+            db_session.add(t)
+            db_session.commit()
+            return 1  # 成功返回 1
+        except Exception as e:
+            print('插入task到数据库错误: ' + str(e))
+            return -1 # 失败返回 -1
+
+
+# TODO: 添加任务的数据查询
+def get_task(tday, tmonth, tyear):
+    tasks = []
+    _t = Task.query.filter(Task.tday==str(tday)).filter(Task.tmonth==str(tmonth)).filter(Task.tyear==str(tyear)).all()
+    for x in _t:
+        thour = x.thour
+        tmin = x.tmin
+        if thour !=  '-1':
+            if tmin != '-1':
+                ti = "{}:{}".format(thour, tmin)
+            else:
+                ti = "{}:{}".format(thour, '00')
+        else:
+            ti = "今天"
+        _tt = {
+            'task': x.task,
+            'time': ti
+        }
+        tasks.append(_tt)
+    return tasks
