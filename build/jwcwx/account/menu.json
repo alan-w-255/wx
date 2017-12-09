@@ -1,0 +1,37 @@
+{
+    "button": [{
+            "type": "click",
+            "name": "今日课表",
+            "key": "GET_TODAY_CLASS_SCHEDULE"
+        },
+        {
+            "type": "click",
+            "name": "今日任务",
+            "key": "GET_TODAY_TASKS"
+        },
+        {
+            "name": "更多",
+            "sub_button": [{
+                    "type": "click",
+                    "name": "成绩查询",
+                    "key": "CHECK_GRADE"
+                },
+                {
+                    "type": "click",
+                    "name": "教学时间安排表",
+                    "key": "GET_TEACHING_TIME_TABLE"
+                },
+                {
+                    "type": "click",
+                    "name": "明日课表",
+                    "key": "GET_TOMO_CLASS_SCHEDULE"
+                },
+                {
+                    "type": "click",
+                    "name": "本周课表",
+                    "key": "GET_WEEK_CLASS_SCHEDULE"
+                }
+            ]
+        }
+    ]
+}
