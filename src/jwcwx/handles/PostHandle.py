@@ -55,16 +55,37 @@ def handle(request):
                 event_key = msg_data[ 'eventKey' ]
                 if event_key == 'GET_TODAY_CLASS_SCHEDULE':
                     print('{}请求今日课表'.format(openid))
-                    from handles import get_today_course
+                    from handles.getCourseSchedule import get_course
+                    import datetime
+
+                    today = datetime.date.today()
+
                     # 今日课表推送
-                    return MsgRender.render(openid, wxOfficeAccount, 'text', get_today_course(openid))
+                    return MsgRender.render(openid, wxOfficeAccount, 'text', get_course(openid, today.year, today.month, today.day))
+                elif event_key == 'GET_TOMO_CLASS_SCHEDULE':
+                    print('{}请求明日课表'.format(openid))
+                    from handles.getCourseSchedule import get_course
+                    import datetime
+
+                    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+
+                    return MsgRender.render(openid, wxOfficeAccount, 'text', get_course(openid, tomorrow.year, tomorrow.month, tomorrow.day))
+
+                elif event_key == 'GET_WEEK_CLASS_SCHEDULE':
+                    print('{}请求本周课表'.format(openid))
+                    from handles.getCourseSchedule import get_week_course
+                    import datetime
+                    today = datetime.date.today()
+
+                    return MsgRender.render(openid, wxOfficeAccount, 'text', get_week_course(openid, today.year, today.month, today.day))
+
 
                 elif event_key == 'GET_TODAY_TASKS':
                     # 今日任务推送
                     from handles import wx_task
                     return wx_task.get_today_task(openid, wxOfficeAccount)
 
-                elif event_key == 'get_teaching_time_table':
+                elif event_key == 'GET_TEACHING_TIME_TABLE':
                     # todo: 获取教学时间表
                     pass
                 else:

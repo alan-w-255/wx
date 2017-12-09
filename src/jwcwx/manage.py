@@ -66,6 +66,10 @@ def drop_all_db_table():
     from db.database import drop_all
     drop_all()
     print('删除所有表成功!')
+@manager.command
+def upload_image():
+    # 上传图片
+    pass
 
 if __name__ == "__main__":
     manager.run()

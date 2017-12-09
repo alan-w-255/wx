@@ -26,3 +26,6 @@ password = 'paw-ordxx'
 host = 'localhost'
 port = '5432'
 dbname = 'wxdb'
+
+# [date]
+school_open_day = [2017,9,3]
