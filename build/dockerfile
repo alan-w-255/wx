@@ -1,0 +1,3 @@
+FROM tiangolo/uwsgi-niginx-flask:python3.6
+COPY ./jwcwx/* /app
+COPY ./debian9sources.list /etc/apt/sources.list -f

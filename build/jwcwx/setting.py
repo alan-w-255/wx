@@ -22,11 +22,7 @@ user_binding_page='http://heywym.com/user_binding'
 semester = '2017-下'
 
 # [db]
-dbuser = 'wxdbuser'
-password = 'paw-ordxx'
-host = 'localhost'
-port = '5432'
-dbname = 'wxdb'
+DATABASE_URI = 'sqlite:////app/db.sqlite'
 
 # [date]
 school_open_day = [2017,9,3]
