@@ -4,11 +4,11 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import setting
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+# basedir = os.path.abspath(os.path.dirname(__file__))
 
 DATABASE_URI = setting.DATABASE_URI
 
-engine = create_engine(DATABASE_URI) # 创建数据库引擎
+engine = create_engine(DATABASE_URI, convert_unicode=True) # 创建数据库引擎
 
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
