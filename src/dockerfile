@@ -1,0 +1,9 @@
+FROM tiangolo/uwsgi-nginx-flask:python3.6
+COPY ./jwcwx /app
+
+RUN cp /app/sources.list /etc/apt/sources.list -f \
+&& cp /app/.pip ~/ -rf \
+&& apt-get update \
+&& pip3 install -r /app/requirement \
+&& python3 /app/manage.py create_db \
+&& python3 /app/manage.py create_menu

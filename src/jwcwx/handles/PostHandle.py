@@ -87,7 +87,10 @@ def handle(request):
 
                 elif event_key == 'GET_TEACHING_TIME_TABLE':
                     # todo: 获取教学时间表
-                    pass
+                    return MsgRender.image_render(openid, wxOfficeAccount, 'image', 'FM1U1yw14iCS6FRuhE3F4ieCMTjWB9dky3iiuCIL-mU')
+                elif event_key == 'GET_BUS_TIME_TABLE':
+                    # todo: 获取教学时间表
+                    return MsgRender.image_render(openid, wxOfficeAccount, 'image', 'FM1U1yw14iCS6FRuhE3F4pQJFRDQMt1ARVEjI-vJrJs')
                 else:
                     pass
             elif eventType == 'VIEW':
