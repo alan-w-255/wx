@@ -40,20 +40,6 @@ def auth():
 	else:
 		raise Exception('无法处理的request 方法: ', request.method)
 
-# @app.route('/sign_up')
-# def sign_up():
-# 	# wxUserAccount = request.args['wxuser']
-# 	return render_template('bindUser.html')
-
-# @app.route('/user_binding')
-# def bind_user():
-
-# 	print('访问 /user_binding 页面')
-# 	return render_template('bindUser.html')
-
-# @app.route('/getBindingData', methods=['post', 'GET'])
-# def bind_user_data():
-# 	pass
 
 @app.route('/getTodayCourse')
 def get_today_course():

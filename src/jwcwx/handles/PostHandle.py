@@ -62,6 +62,7 @@ def handle(request):
 
                     # 今日课表推送
                     return MsgRender.render(openid, wxOfficeAccount, 'text', get_course(openid, today.year, today.month, today.day))
+
                 elif event_key == 'GET_TOMO_CLASS_SCHEDULE':
                     print('{}请求明日课表'.format(openid))
                     from handles.getCourseSchedule import get_course
@@ -79,7 +80,6 @@ def handle(request):
 
                     return MsgRender.render(openid, wxOfficeAccount, 'text', get_week_course(openid, today.year, today.month, today.day))
 
-
                 elif event_key == 'GET_TODAY_TASKS':
                     # 今日任务推送
                     from handles import wx_task
@@ -88,9 +88,20 @@ def handle(request):
                 elif event_key == 'GET_TEACHING_TIME_TABLE':
                     # todo: 获取教学时间表
                     return MsgRender.image_render(openid, wxOfficeAccount, 'image', 'FM1U1yw14iCS6FRuhE3F4ieCMTjWB9dky3iiuCIL-mU')
+
                 elif event_key == 'GET_BUS_TIME_TABLE':
                     # todo: 获取教学时间表
                     return MsgRender.image_render(openid, wxOfficeAccount, 'image', 'FM1U1yw14iCS6FRuhE3F4pQJFRDQMt1ARVEjI-vJrJs')
+                elif event_key == 'CHECK_GRADE':
+                    msg = '功能正在开发中, 敬请期待!'
+                    return MsgRender.render(openid, wxOfficeAccount, 'text', msg)
+                elif event_key == 'subscribe':
+                    msg = '终于等到你!!!!' + \
+                    '请绑定你的教务处账号来使用课表查询服务!' + \
+                    '\n发送: 绑定 学号:教务处密码' + \
+                    '\n学号和教务处密码替换为你的学号和你的教务处密码(我们不会告诉任何人的)'
+                    return MsgRender.render(openid, wxOfficeAccount, 'text', msg)
+
                 else:
                     pass
             elif eventType == 'VIEW':

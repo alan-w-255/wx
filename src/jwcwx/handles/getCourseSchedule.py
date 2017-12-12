@@ -51,6 +51,14 @@ def get_course(openid, year, month, day):
     weekdays_ch = ['一', '二', '三', '四', '五', '六', '日']
 
     wday = datetime(year, month, day).weekday()
+    # 判断是否绑定教务处
+    _b = Model.User.query.filter(Model.User.wx_ID==openid)
+    if _b.first() is None:
+        return '您尚未绑定教务处账号, 无法使用课表查询功能' + \
+            '请绑定你的教务处账号来使用课表查询服务!' + \
+            '\n发送: 绑定 学号:教务处密码' + \
+            '\n学号和教务处密码替换为你的学号和你的教务处密码(我们不会告诉任何人的)'
+
     a = Model.Course.query.join(Model.UserCourseSchedule).join(Model.User).filter(Model.User.wx_ID == openid).filter(Model.Course.offering_day_of_week == str(wday + 1))
 
     today_course_title = '周 {}:\n'.format(weekdays_ch[wday])
