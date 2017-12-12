@@ -9,10 +9,10 @@ from models import Model
 from db.operator import insert_user_course_to_db, insert_user_to_db, update_course_table
 from lib.crawlJWC import crawlTable
 
-def _make_context():
-    return dict(app=app, Model=Model, insert_user_course_to_db=insert_user_course_to_db, insert_user_to_db=insert_user_to_db, update_course_table=update_course_table, jwct=jwct, stid=stid, passwd=passwd)
+# def _make_context():
+#     return dict(app=app, Model=Model, insert_user_course_to_db=insert_user_course_to_db, insert_user_to_db=insert_user_to_db, update_course_table=update_course_table, jwct=jwct, stid=stid, passwd=passwd)
 
-manager.add_command('shell', Shell(make_context=_make_context))
+# manager.add_command('shell', Shell(make_context=_make_context))
 
 manager.add_command("runserver", Server(host='0.0.0.0', port=80))
 

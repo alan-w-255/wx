@@ -23,6 +23,11 @@
                 },
                 {
                     "type": "click",
+                    "name": "校车时刻表",
+                    "key": "GET_BUS_TIME_TABLE"
+                },
+                {
+                    "type": "click",
                     "name": "明日课表",
                     "key": "GET_TOMO_CLASS_SCHEDULE"
                 },
