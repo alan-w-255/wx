@@ -6,4 +6,4 @@ RUN cp /app/sources.list /etc/apt/sources.list -f \
 && apt-get update \
 && pip3 install -r /app/requirement \
 && python3 /app/manage.py create_db \
-&& python3 /app/manage create_menu
+&& python3 /app/manage.py create_menu
