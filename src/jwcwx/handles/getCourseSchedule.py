@@ -19,6 +19,13 @@ def get_week_course(openid, year, month, day):
 
     week_course = ''
 
+    _has_openid = Model.User.query.filter(Model.User.wx_ID==openid)
+    if _has_openid.first() is None:
+        return '您尚未绑定教务处账号, 无法使用课表查询功能' + \
+            '请绑定你的教务处账号来使用课表查询服务!' + \
+            '\n发送: 绑定 学号:教务处密码' + \
+            '\n学号和教务处密码替换为你的学号和你的教务处密码(我们不会告诉任何人的)'
+
     for x in range(7):
         _cur_day = monday + datetime.timedelta(days=x)
         a = Model.Course.query.join(Model.UserCourseSchedule).join(Model.User).filter(Model.User.wx_ID == openid).filter(Model.Course.offering_day_of_week == str(_cur_day.weekday()+1))
